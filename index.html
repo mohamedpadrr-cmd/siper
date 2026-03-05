@@ -9,20 +9,42 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;800;900&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
 --gold-3d: linear-gradient(to bottom,#f1d592 0%,#d4af37 40%,#b2945e 100%);
 --real-gold:#d4af37;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+/* تدوير الصفحة 90 درجة */
+
+html,body{
+width:100vh;
+height:100vw;
+margin:0;
+overflow:hidden;
+background:#000;
+}
 
 body{
+transform:rotate(90deg);
+transform-origin:center;
+position:absolute;
+top:50%;
+left:50%;
+translate:-50% -50%;
+
 background:url('https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=2000') center/cover no-repeat fixed;
 color:#fff;
 font-family:'Tajawal',sans-serif;
-height:100vh;
-overflow:hidden;
 }
+
+/* التصميم */
 
 .wrapper{
 height:100%;
@@ -130,7 +152,7 @@ background:var(--gold-3d);
 -webkit-text-fill-color:transparent;
 }
 
-/* Responsive */
+/* responsive */
 
 @media(max-width:1400px){
 #digi-time{font-size:7rem}
@@ -157,6 +179,7 @@ height:auto;
 }
 
 }
+
 </style>
 
 </head>
