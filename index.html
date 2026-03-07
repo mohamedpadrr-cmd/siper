@@ -3,206 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مواقيت الصلاة - جامع الأمير فواز</title>
+    <title>شاشة المسجد - الوضع الطولي</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
-        :root { 
-            --gold-3d: linear-gradient(to bottom, #f1d592 0%, #d4af37 40%, #b2945e 100%);
-            --real-gold: #d4af37;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body { 
-            background: url('https://images.unsplash.com') center/cover no-repeat fixed;
-            color: #fff; font-family: 'Tajawal', sans-serif; height: 100vh; overflow: hidden;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-origin: center center;
-        }
+        :root { --gold: #d4af37; }
 
-        .wrapper { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
 
-        .top-bar { 
-            background: rgba(0, 0, 0, 0.5); display: flex; justify-content: space-between; 
-            padding: 15px 50px; border-bottom: 2px solid var(--real-gold); font-size: 2rem; font-weight: bold;
-            color: var(--real-gold); text-shadow: 2px 2px 4px #000;
+        body {
+            background: #000;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .main-content { 
-            display: grid; grid-template-columns: 420px 1fr; gap: 30px; 
-            padding: 30px; flex: 1; align-items: center;
+        /* حاوية التدوير */
+        .rotate-wrapper {
+            transform: rotate(90deg); /* تدوير 90 درجة */
+            width: 100vh; /* العرض يصبح الارتفاع */
+            height: 100vw; /* الارتفاع يصبح العرض */
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+                        url("https://images.unsplash.com") center/cover;
+            color: white;
+            position: absolute;
         }
 
-        .left-panel { 
-            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(212, 175, 55, 0.5); 
-            border-radius: 25px; display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; height: 100%; backdrop-filter: blur(5px);
+        .top {
+            height: 8vh;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4vw;
+            border-bottom: 2px solid var(--gold);
+            font-size: 3vh;
+            color: var(--gold);
+            font-weight: 700;
         }
 
-        #digi-time { font-size: 8rem; font-weight: 900; color: var(--real-gold); line-height: 1; text-shadow: 5px 5px 15px rgba(0,0,0,1); }
-        .dots { animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.1; } }
-        
-        #ampm { font-size: 3rem; color: var(--real-gold); margin-bottom: 20px; text-shadow: 2px 2px 8px #000; }
+        .mosque { text-align: center; font-size: 5vh; font-weight: 900; margin-top: 3vh; }
 
-        .center-panel { display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; }
-        
-        #zikr-text { 
-            font-size: 4.5rem; font-weight: 900; line-height: 1.4; color: var(--real-gold);
-            text-shadow: 4px 4px 10px rgba(0,0,0,1), -4px -4px 10px rgba(0,0,0,1), 0 0 25px rgba(0,0,0,0.8);
-            transition: opacity 1s ease-in-out;
+        .clockBox { text-align: center; margin-top: 5vh; }
+        #clock { font-size: 22vh; font-weight: 900; color: var(--gold); line-height: 1; }
+        #ampm { font-size: 6vh; display: block; margin-top: 1vh; }
+
+        .next { text-align: center; margin-top: 4vh; }
+        .nextTitle { font-size: 4vh; }
+        #nextName { font-size: 7vh; color: var(--gold); font-weight: 900; }
+        #countdown { font-size: 5vh; margin-top: 1vh; color: #eee; }
+
+        .zikr {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 5vw;
+            font-size: 6vh;
+            font-weight: 700;
+            line-height: 1.4;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
         }
 
-        .bottom-grid { 
-            display: grid; grid-template-columns: repeat(6, 1fr); 
-            height: 200px; background: rgba(0, 0, 0, 0.6); border-top: 3px solid var(--real-gold);
-            backdrop-filter: blur(10px);
+        /* جدول الصلوات بالأسفل */
+        .prayers {
+            height: 22vh;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr); /* 6 أعمدة لكل الصلوات */
+            background: rgba(0,0,0,.8);
+            border-top: 4px solid var(--gold);
         }
 
-        .p-box { 
-            border-left: 1px solid rgba(212, 175, 55, 0.2); display: flex; flex-direction: column; 
-            align-items: center; justify-content: center; transition: all 0.3s;
-        }
-        
-        .p-box.active { 
-            background: rgba(212, 175, 55, 0.2); border-top: 8px solid var(--real-gold);
-            animation: pulse 2s infinite alternate;
+        .p {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-left: 1px solid rgba(255,255,255,.1);
         }
 
-        @keyframes pulse { from { box-shadow: inset 0 0 10px var(--real-gold); } to { box-shadow: inset 0 0 40px var(--real-gold); } }
-
-        .p-box .name { font-size: 1.8rem; color: #fff; margin-bottom: 5px; font-weight: bold; text-shadow: 2px 2px 4px #000; }
-        .p-box .time { 
-            font-size: 3.5rem; font-weight: 900; background: var(--gold-3d);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(4px 4px 5px rgba(0,0,0,1));
-        }
-
-        /* زر التدوير */
-        #rotate-btn {
-            position: fixed; top: 15px; left: 15px; z-index: 1000; background: rgba(0,0,0,0.6);
-            border: 1px solid var(--real-gold); color: var(--real-gold); width: 50px; height: 50px;
-            border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; opacity: 0; transition: 0.3s;
-        }
-        body:hover #rotate-btn { opacity: 1; }
+        .pname { font-size: 3.5vh; margin-bottom: 1vh; color: #ccc; }
+        .ptime { font-size: 5.5vh; color: var(--gold); font-weight: 900; }
     </style>
 </head>
 <body>
 
-    <button id="rotate-btn" onclick="rotateScreen()" title="تدوير (R)">🔄</button>
-
-    <div class="wrapper">
-        <div class="top-bar">
-            <div id="en-date">--</div>
-            <div style="font-size: 2.5rem; text-shadow: 3px 3px 6px #000;">جامع الأمير فواز - جدة</div>
-            <div id="ar-date">--</div>
-        </div>
-
-        <div class="main-content">
-            <div class="left-panel">
-                <div id="digi-time">00<span class="dots">:</span>00</div>
-                <div id="ampm">--</div>
-                <div style="color:#fff; font-size:1.6rem; border-top:1px solid rgba(212, 175, 55, 0.5); padding-top:20px; width:80%; text-align:center; text-shadow: 2px 2px 4px #000;">
-                    الصلاة القادمة: <br>
-                    <span id="next-prayer-name" style="color:var(--real-gold); font-weight:bold; font-size:2.8rem; text-shadow: 3px 3px 6px #000;">--</span>
-                </div>
-            </div>
-
-            <div class="center-panel">
-                <div id="zikr-text">أستغفر الله العظيم</div>
-            </div>
-        </div>
-
-        <div class="bottom-grid" id="prayer-list"></div>
+<div class="rotate-wrapper">
+    <div class="top">
+        <div id="hijri"></div>
+        <div id="miladi"></div>
     </div>
 
+    <div class="mosque">جامع الأمير فواز – جدة</div>
+
+    <div class="clockBox">
+        <div id="clock">00:00</div>
+        <div id="ampm">--</div>
+    </div>
+
+    <div class="next">
+        <div class="nextTitle">الصلاة القادمة</div>
+        <div id="nextName">--</div>
+        <div id="countdown">00:00:00</div>
+    </div>
+
+    <div class="zikr" id="zikr">سبحان الله وبحمده</div>
+
+    <div class="prayers" id="prayers">
+        <!-- سيتم تعبئتها بواسطة JS -->
+    </div>
+</div>
+
 <script>
-    // مواقيت جدة بتاريخ 5 مارس 2026
-    const prayerSchedule = [
-        { n: 'الفجر', t: '5:28 ص', h: 5, m: 28 },
-        { n: 'الشروق', t: '6:42 ص', h: 6, m: 42 },
-        { n: 'الظهر', t: '12:35 م', h: 12, m: 35 },
-        { n: 'العصر', t: '3:57 م', h: 15, m: 57 },
-        { n: 'المغرب', t: '6:29 م', h: 18, m: 29 },
-        { n: 'العشاء', t: '7:39 م', h: 19, m: 39 }
+    const prayerTimes = [
+        {name: "الفجر", time: "05:21"},
+        {name: "الشروق", time: "06:38"},
+        {name: "الظهر", time: "12:31"},
+        {name: "العصر", time: "15:52"},
+        {name: "المغرب", time: "18:24"},
+        {name: "العشاء", time: "19:54"}
     ];
 
-    let currentRotation = 0;
+    const prayersBox = document.getElementById("prayers");
+    prayerTimes.forEach(p => {
+        let div = document.createElement("div");
+        div.className = "p";
+        div.innerHTML = `<div class='pname'>${p.name}</div><div class='ptime'>${p.time}</div>`;
+        prayersBox.appendChild(div);
+    });
 
-    function rotateScreen() {
-        currentRotation = (currentRotation + 90) % 360;
-        document.body.style.transform = `rotate(${currentRotation}deg)`;
-        
-        if (currentRotation % 180 !== 0) {
-            document.body.style.width = "100vh";
-            document.body.style.height = "100vw";
-            document.body.style.position = "absolute";
-            document.body.style.top = "50%"; document.body.style.left = "50%";
-            document.body.style.translate = "-50% -50%";
-        } else {
-            document.body.style.width = "100vw"; document.body.style.height = "100vh";
-            document.body.style.position = "relative"; document.body.style.top = "0";
-            document.body.style.left = "0"; document.body.style.translate = "0 0";
-        }
+    function updateClock() {
+        let now = new Date();
+        let h12 = now.getHours() % 12 || 12;
+        let m = String(now.getMinutes()).padStart(2, "0");
+        document.getElementById("clock").innerText = h12 + ":" + m;
+        document.getElementById("ampm").innerText = now.getHours() >= 12 ? "مساءً" : "صباحاً";
+        document.getElementById("miladi").innerText = now.toLocaleDateString("en", {weekday: "long", year: "numeric", month: "long", day: "numeric"});
+        document.getElementById("hijri").innerText = new Intl.DateTimeFormat("ar-SA-u-ca-islamic", {day: "numeric", month: "long", year: "numeric", weekday: "long"}).format(now);
     }
+    setInterval(updateClock, 1000);
+    updateClock();
 
-    function updateDashboard() {
-        const now = new Date();
-        let h = now.getHours();
-        const m = String(now.getMinutes()).padStart(2, '0');
-        const dots = now.getSeconds() % 2 === 0 ? '<span class="dots">:</span>' : '<span style="opacity:0">:</span>';
-        
-        document.getElementById('digi-time').innerHTML = `${h % 12 || 12}${dots}${m}`;
-        document.getElementById('ampm').innerText = h >= 12 ? 'مساءً' : 'صباحاً';
-
-        document.getElementById('en-date').innerText = now.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
-        document.getElementById('ar-date').innerText = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', {day:'numeric', month:'long', year:'numeric', weekday:'long'}).format(now);
-
-        const currentTotalMin = h * 60 + now.getMinutes();
-        let nextIdx = 0;
-        
-        for (let i = 0; i < prayerSchedule.length; i++) {
-            let pTime = prayerSchedule[i].h * 60 + prayerSchedule[i].m;
-            if (currentTotalMin < pTime) {
-                nextIdx = i;
-                break;
-            }
-            if (i === 5) nextIdx = 0; // بعد العشاء ننتقل للفجر
-        }
-
-        document.getElementById('next-prayer-name').innerText = prayerSchedule[nextIdx].n;
-        const grid = document.getElementById('prayer-list');
-        grid.innerHTML = prayerSchedule.map((p, idx) => `
-            <div class="p-box ${idx === nextIdx ? 'active' : ''}">
-                <div class="name">${p.n}</div>
-                <div class="time">${p.t}</div>
-            </div>
-        `).join('');
-    }
-
-    const azkar = [
-        "«سبحان الله وبحمده، سبحان الله العظيم»",
-        "«لا إله إلا الله وحده لا شريك له»",
-        "«اللهم صلِ وسلم على نبينا محمد»",
-        "«أستغفر الله العظيم وأتوب إليه»",
-        "«اللهم اجعلنا من الذاكرين الشاكرين»"
-    ];
-    let zIdx = 0;
-    function cycleZikr() {
-        const el = document.getElementById('zikr-text');
-        el.style.opacity = 0;
-        setTimeout(() => {
-            el.innerText = azkar[zIdx];
-            el.style.opacity = 1;
-            zIdx = (zIdx + 1) % azkar.length;
-        }, 1000);
-    }
-
-    document.addEventListener('keydown', (e) => { if (e.key.toLowerCase() === 'r') rotateScreen(); });
-    setInterval(updateDashboard, 1000);
-    setInterval(cycleZikr, 15000);
-    updateDashboard();
-    cycleZikr();
+    const azkar = ["سبحان الله وبحمده سبحان الله العظيم", "لا إله إلا الله وحده لا شريك له", "أستغفر الله العظيم وأتوب إليه", "اللهم صل وسلم على نبينا محمد"];
+    let zi = 0;
+    setInterval(() => {
+        document.getElementById("zikr").innerText = azkar[zi];
+        zi = (zi + 1) % azkar.length;
+    }, 15000);
 </script>
+
 </body>
 </html>
