@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شاشة جامع الأمير فواز - النسخة المنظمة</title>
+    <title>شاشة جامع الأمير فواز - النسخة المتوهجة</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --gold: #FFD700; --white: #F5F5F5; }
@@ -23,31 +23,36 @@
             position: absolute; border: 4px solid var(--gold);
         }
 
-        /* 1. الجزء العلوي: زيادة التباعد وتصغير الساعة */
+        /* 1. الجزء العلوي */
         .top-section {
             height: 38vh;
             display: flex; flex-direction: column;
             justify-content: center; text-align: center;
             padding: 1vh 0;
         }
-        .mosque-name { font-family: 'Amiri', serif; font-size: 7.5vh; color: var(--white); text-shadow: 0 0 15px var(--gold); }
-        
-        /* زيادة المسافة تحت التاريخ */
+        .mosque-name { font-family: 'Amiri', serif; font-size: 7.5vh; color: var(--white); text-shadow: 0 0 20px var(--gold), 0 0 10px var(--gold); }
         .date-info { font-size: 2.8vh; color: var(--gold); font-weight: 700; margin: 1vh 0 3vh 0; }
         
-        /* منطقة الساعة - تم تصغير الخط وزيادة الهامش العلوي */
         .clock-area { display: flex; align-items: center; justify-content: center; gap: 2vw; margin-top: 2vh; }
         #clock { font-size: 17vh; font-weight: 900; color: var(--gold); line-height: 0.8; text-shadow: 0 0 40px #000; }
         #ampm { font-size: 5.5vh; color: var(--white); font-weight: 800; }
 
-        /* 2. الجزء الأوسط: الأذكار */
+        /* 2. الجزء الأوسط: إضافة التوهج للأذكار */
         .zikr-section {
             flex: 1; display: flex; align-items: center; justify-content: center;
             text-align: center; padding: 0 6vw;
         }
-        #zikr { font-size: 7.5vh; font-weight: 800; color: var(--white); text-shadow: 3px 3px 20px #000; line-height: 1.4; transition: opacity 0.5s; }
+        #zikr { 
+            font-size: 7.5vh; 
+            font-weight: 800; 
+            color: var(--white); 
+            /* إضافة التوهج هنا ليتناسب مع اسم الجامع */
+            text-shadow: 0 0 25px var(--gold), 0 0 10px rgba(255,215,0,0.5), 3px 3px 10px #000; 
+            line-height: 1.4; 
+            transition: opacity 0.6s ease-in-out; 
+        }
 
-        /* 3. الجزء السفلي: العداد ومواقيت الصلاة */
+        /* 3. الجزء السفلي */
         .prayer-section {
             height: 42vh;
             display: flex; flex-direction: column;
@@ -152,7 +157,7 @@
             let ps = p.h*3600 + p.m*60;
             if(ps > cur) { next = ps; break; }
         }
-        if(!next) next = prayerData.h*3600 + prayerData.m*60 + 86400;
+        if(!next) next = prayerData[0].h*3600 + prayerData[0].m*60 + 86400;
         let diff = next - cur;
         let h = Math.floor(diff/3600), m = Math.floor((diff%3600)/60), s = diff%60;
         document.getElementById("timer").innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
@@ -162,7 +167,7 @@
     let z = 0; setInterval(() => { 
         const zElem = document.getElementById("zikr");
         zElem.style.opacity = 0;
-        setTimeout(() => { zElem.innerText = azkar[++z % azkar.length]; zElem.style.opacity = 1; }, 500);
+        setTimeout(() => { zElem.innerText = azkar[++z % azkar.length]; zElem.style.opacity = 1; }, 600);
     }, 20000);
 </script>
 </body>
