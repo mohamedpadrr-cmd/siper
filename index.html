@@ -6,12 +6,10 @@
     <title>شاشة جامع الأمير فواز</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
-        /* الألوان المتناسقة مع الكعبة والخشب */
         :root { 
-            --gold-bright: #FFD700; /* ذهبي ساطع للأرقام */
-            --gold-muted: #D4AF37;  /* ذهبي مطفي للعناوين */
-            --white-soft: #F5F5F5;  /* أبيض ناعم للنصوص الثانوية */
-            --shadow: rgba(0, 0, 0, 0.8);
+            --gold: #FFD700; 
+            --white: #F5F5F5;
+            --shadow: rgba(0, 0, 0, 0.9);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
@@ -23,95 +21,103 @@
             display: flex; align-items: center; justify-content: center; 
         }
 
+        /* حاوية التدوير المصلحة */
         .main-container {
             transform: rotate(90deg);
-            width: 100vh; height: 100vw;
+            /* العرض والارتفاع معكوسين بسبب التدوير 90 درجة */
+            width: 100vh; 
+            height: 100vw;
             display: flex; flex-direction: column;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), 
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)), 
                         url("bg.png") center/cover no-repeat;
             position: absolute;
-            border: 5px solid var(--gold-muted);
+            border: 4px solid var(--gold);
         }
 
-        /* الجزء العلوي */
+        /* الجزء العلوي: الاسم والساعة */
         .top-section {
-            height: 32vh;
+            height: 30vh;
             display: flex; flex-direction: column;
-            justify-content: space-between;
-            padding: 2vh 0;
+            justify-content: center;
             text-align: center;
+            padding-top: 2vh;
         }
 
         .mosque-name { 
             font-family: 'Amiri', serif; 
             font-size: 8vh; 
-            color: var(--white-soft); 
-            text-shadow: 0 0 20px var(--gold-bright); 
+            color: var(--white); 
+            text-shadow: 0 0 20px var(--gold);
+            margin-bottom: 1vh;
         }
 
-        .date-bar { font-size: 2.8vh; color: var(--gold-muted); font-weight: 700; margin-bottom: 0.5vh; }
-
-        /* الساعة - لون ذهبي متوهج */
+        .clock-row { 
+            display: flex; align-items: center; justify-content: center; gap: 2vw; 
+        }
         #clock { 
-            font-size: 16vh; 
+            font-size: 18vh; 
             font-weight: 900; 
-            color: var(--gold-bright); 
-            line-height: 1; 
-            text-shadow: 0 0 30px var(--shadow), 0 0 10px rgba(255,215,0,0.5); 
+            color: var(--gold); 
+            line-height: 1;
+            text-shadow: 0 0 30px #000;
         }
-        #ampm { font-size: 5vh; color: var(--white-soft); font-weight: 800; }
-        
-        /* العداد التنازلي */
-        .counter-box {
-            background: rgba(212, 175, 55, 0.1); /* خلفية ذهبية شفافة */
-            margin: 0 18vw; padding: 1.2vh;
-            border-radius: 20px; border: 1.5px solid var(--gold-muted);
-        }
-        #timer-label { font-size: 3vh; color: var(--white-soft); font-weight: 700; }
-        #timer { font-size: 6vh; color: var(--gold-bright); font-weight: 900; letter-spacing: 2px; }
+        #ampm { font-size: 5vh; color: var(--white); font-weight: 800; }
 
-        /* الأذكار */
+        /* العداد التنازلي */
+        .counter-area {
+            height: 15vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+        .counter-box {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 1.5vh 5vw;
+            border-radius: 20px;
+            border: 2px solid var(--gold);
+            text-align: center;
+        }
+        #timer-label { font-size: 3vh; color: var(--white); margin-bottom: 0.5vh; }
+        #timer { font-size: 6.5vh; color: var(--gold); font-weight: 900; letter-spacing: 3px; }
+
+        /* الأذكار في المنتصف */
         .zikr-section {
             flex: 1;
             display: flex; align-items: center; justify-content: center;
             text-align: center; padding: 0 5vw;
         }
         #zikr { 
-            font-size: 7.5vh; 
+            font-size: 7vh; 
             font-weight: 800; 
-            color: var(--white-soft); 
-            text-shadow: 4px 4px 15px var(--shadow); 
-            line-height: 1.4; 
+            color: var(--white); 
+            text-shadow: 4px 4px 15px #000;
+            line-height: 1.3;
         }
 
-        /* مواقيت الصلاة - منظمة وملونة */
-        .bottom-prayer-section {
-            height: 35vh;
+        /* مواقيت الصلاة في الأسفل (3 يمين و 3 يسار) */
+        .bottom-prayers {
+            height: 32vh;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            border-top: 4px solid var(--gold-muted);
-            background: rgba(0,0,0,0.4);
+            border-top: 4px solid var(--gold);
+            background: rgba(0,0,0,0.5);
         }
 
-        .prayer-column {
+        .prayer-col {
             display: flex; flex-direction: column;
             justify-content: space-around;
-            padding: 1.5vh 0;
+            padding: 1vh 0;
         }
-        .border-left { border-left: 2px solid var(--gold-muted); }
+        .v-line { border-left: 2px solid rgba(255,215,0,0.3); }
 
-        .prayer-card {
+        .prayer-item {
             display: flex; justify-content: space-between; align-items: center;
             padding: 0 5vw;
         }
-        .p-label { font-size: 5vh; color: var(--white-soft); font-weight: 800; }
-        .p-time { 
-            font-size: 6.5vh; 
-            color: var(--gold-bright); 
-            font-weight: 900; 
-            text-shadow: 2px 2px 8px var(--shadow); 
-        }
-        .p-suffix { font-size: 3vh; color: var(--white-soft); margin-right: 6px; font-weight: 700; }
+        .p-name { font-size: 4.5vh; color: var(--white); font-weight: 800; }
+        .p-val { font-size: 6.5vh; color: var(--gold); font-weight: 900; text-shadow: 2px 2px 8px #000; }
+        .p-suf { font-size: 2.8vh; color: var(--white); margin-right: 5px; }
+
+        .date-info { font-size: 3vh; color: var(--gold); font-weight: 700; margin-bottom: 1vh; }
 
     </style>
 </head>
@@ -119,14 +125,17 @@
 
 <div class="main-container">
     <div class="top-section">
-        <div>
-            <div class="date-bar"><span id="hijri">--</span> | <span id="miladi">--</span></div>
-            <div class="mosque-name">جامع الأمير فواز</div>
+        <div class="date-info">
+            <span id="hijri">--</span> | <span id="miladi">--</span>
         </div>
-        <div style="display: flex; align-items: center; justify-content: center; gap: 2vw;">
+        <div class="mosque-name">جامع الأمير فواز</div>
+        <div class="clock-row">
             <div id="clock">00:00</div>
             <div id="ampm">--</div>
         </div>
+    </div>
+
+    <div class="counter-area">
         <div class="counter-box">
             <div id="timer-label">الصلاة القادمة بعد</div>
             <div id="timer">00:00:00</div>
@@ -137,30 +146,29 @@
         <div id="zikr">أستغفر الله العظيم وأتوب إليه</div>
     </div>
 
-    <div class="bottom-prayer-section">
-        <div class="prayer-column border-left" id="rightPr"></div>
-        <div class="prayer-column" id="leftPr"></div>
+    <div class="bottom-prayers">
+        <div class="prayer-col v-line" id="rCol"></div>
+        <div class="prayer-col" id="lCol"></div>
     </div>
 </div>
 
 <script>
-    // مواقيت الصلاة - يرجى تعديلها حسب تقويم مدينتك
-    const prayers = [
-        {name: "الفجر", h: 5, m: 10}, {name: "الشروق", h: 6, m: 34}, {name: "الظهر", h: 12, m: 20},
-        {name: "العصر", h: 15, m: 34}, {name: "المغرب", h: 18, m: 6}, {name: "العشاء", h: 19, m: 31}
+    const prayerData = [
+        {n: "الفجر", h: 5, m: 10}, {n: "الشروق", h: 6, m: 34}, {n: "الظهر", h: 12, m: 20},
+        {n: "العصر", h: 15, m: 34}, {n: "المغرب", h: 18, m: 6}, {n: "العشاء", h: 19, m: 31}
     ];
 
-    function format12(h, m) {
+    function fmt12(h, m) {
         let s = h >= 12 ? "م" : "ص";
         let h12 = h % 12 || 12;
-        return `${String(h12).padStart(2,'0')}:${String(m).padStart(2,'0')} <span class="p-suffix">${s}</span>`;
+        return `${String(h12).padStart(2,'0')}:${String(m).padStart(2,'0')} <span class="p-suf">${s}</span>`;
     }
 
-    function render() {
-        const r = document.getElementById("rightPr"), l = document.getElementById("leftPr");
-        prayers.forEach((p, i) => {
-            const html = `<div class="prayer-card"><div class="p-label">${p.name}</div><div class="p-time">${format12(p.h, p.m)}</div></div>`;
-            if (i < 3) r.innerHTML += html; else l.innerHTML += html;
+    function init() {
+        const r = document.getElementById("rCol"), l = document.getElementById("lCol");
+        prayerData.forEach((p, i) => {
+            const h = `<div class="prayer-item"><div class="p-name">${p.n}</div><div class="p-val">${fmt12(p.h, p.m)}</div></div>`;
+            if (i < 3) r.innerHTML += h; else l.innerHTML += h;
         });
     }
 
@@ -174,17 +182,17 @@
 
         let cur = now.getHours()*3600 + now.getMinutes()*60 + now.getSeconds();
         let next = 0;
-        for(let p of prayers) {
+        for(let p of prayerData) {
             let ps = p.h*3600 + p.m*60;
             if(ps > cur) { next = ps; break; }
         }
-        if(!next) next = prayers[0].h*3600 + prayers[0].m*60 + 86400;
+        if(!next) next = prayerData[0].h*3600 + prayerData[0].m*60 + 86400;
         let diff = next - cur;
         let h = Math.floor(diff/3600), m = Math.floor((diff%3600)/60), s = diff%60;
         document.getElementById("timer").innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
     }
 
-    render(); update(); setInterval(update, 1000);
+    init(); update(); setInterval(update, 1000);
     const azkar = ["سبحان الله وبحمده", "لا إله إلا الله وحده لا شريك له", "اللهم صلِّ وسلم على نبينا محمد", "أستغفر الله العظيم وأتوب إليه", "سبحان الله والحمد لله"];
     let z = 0; setInterval(() => { document.getElementById("zikr").innerText = azkar[++z % azkar.length]; }, 15000);
 </script>
