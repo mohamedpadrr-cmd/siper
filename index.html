@@ -20,11 +20,17 @@
         /* حاوية التدوير الطولي */
         .main-container {
             transform: rotate(90deg);
-            width: 100vh; height: 100vw;
+            /* العرض والارتفاع معكوسين بسبب التدوير */
+            width: 100vh; 
+            height: 100vw;
             display: flex; flex-direction: column;
-            /* خلفية إسلامية بجودة عالية */
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url("https://images.unsplash.com") center/cover no-repeat;
+            
+            /* دمج الصورة التي أرسلتها كخلفية */
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                              url("https://r.jina.ai"); 
+            background-position: center;
+            background-size: 100% 100%; /* لضمان تغطية الشاشة بالكامل */
+            background-repeat: no-repeat;
             position: absolute;
         }
 
@@ -33,10 +39,10 @@
             height: 12vh;
             display: flex; justify-content: space-between; align-items: center;
             padding: 0 6vw; border-bottom: 5px solid var(--gold);
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.3);
         }
 
-        .date-text { font-size: 4vh; color: var(--gold); font-weight: 800; }
+        .date-text { font-size: 3.5vh; color: var(--gold); font-weight: 800; }
         .mosque-name { text-align: center; font-size: 7vh; font-weight: 900; color: var(--white); margin-top: 4vh; text-shadow: 4px 4px 15px #000; }
 
         /* الساعة المركزية */
@@ -46,13 +52,13 @@
 
         /* الأذكار */
         .zikr-area { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 8vw; }
-        #zikr { font-size: 8vh; font-weight: 800; color: var(--white); text-shadow: 5px 5px 25px #000; }
+        #zikr { font-size: 7.5vh; font-weight: 800; color: var(--white); text-shadow: 5px 5px 25px #000; }
 
-        /* مواقيت الصلاة (3 فوق 3) */
+        /* مواقيت الصلاة */
         .prayer-grid {
             height: 35vh;
             display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr);
-            background: rgba(0, 0, 0, 0.85); border-top: 6px solid var(--gold);
+            background: rgba(0, 0, 0, 0.8); border-top: 6px solid var(--gold);
         }
 
         .prayer-card { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255, 215, 0, 0.2); }
@@ -84,7 +90,6 @@
 </div>
 
 <script>
-    // مواقيت الصلاة لجدة (نظام 12 ساعة)
     const prayerTimes = [
         {name: "الفجر", time: "05:10", suf: "ص"},
         {name: "الشروق", time: "06:34", suf: "ص"},
@@ -103,7 +108,6 @@
     });
 
     function updateJeddahTime() {
-        // الحصول على توقيت جدة (تلقائي)
         const now = new Date();
         const jeddahTime = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh', hour12: true, hour: '2-digit', minute: '2-digit' });
         
