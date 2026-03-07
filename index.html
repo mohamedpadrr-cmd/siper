@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شاشة جامع الأمير فواز - النسخة النهائية</title>
+    <title>شاشة جامع الأمير فواز - النسخة المحدثة</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --gold: #FFD700; --white: #F5F5F5; }
@@ -49,7 +49,7 @@
             transition: opacity 0.5s ease-in-out;
         }
 
-        /* منطقة العداد: فوق مواقيت الصلاة مباشرة */
+        /* منطقة العداد */
         .counter-area { display: flex; justify-content: center; margin-bottom: 1.5vh; }
         .counter-box {
             background: rgba(255, 215, 0, 0.15);
@@ -60,7 +60,7 @@
         #timer-label { font-size: 2.8vh; color: var(--white); margin-bottom: 0.5vh; }
         #timer { font-size: 6.5vh; color: var(--gold); font-weight: 900; letter-spacing: 4px; line-height: 1; }
 
-        /* الجزء السفلي: مواقيت الصلاة (3 يمين و 3 يسار) */
+        /* مواقيت الصلاة: زيادة المسافات بين الاسم والوقت */
         .bottom-prayers {
             height: 38vh;
             display: grid; grid-template-columns: 1fr 1fr;
@@ -70,12 +70,28 @@
         .prayer-col { display: flex; flex-direction: column; justify-content: space-around; padding: 1vh 0; }
         .v-line { border-left: 2px solid rgba(255,215,0,0.3); }
 
-        .prayer-item { display: flex; justify-content: space-between; align-items: center; padding: 0 4vw; }
-        .p-name { font-size: 4.5vh; color: var(--white); font-weight: 800; }
+        .prayer-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 0 6vw; /* زيادة المسافة من الجوانب */
+        }
+        .p-name { 
+            font-size: 4.8vh; /* تكبير اسم الصلاة قليلاً */
+            color: var(--white); 
+            font-weight: 800; 
+            min-width: 15vw; /* ضمان مساحة ثابتة لاسم الصلاة لتبعد عن التوقيت */
+            text-align: right;
+        }
         
-        .p-val-box { display: flex; align-items: baseline; white-space: nowrap; }
-        .p-val { font-size: 6.5vh; color: var(--gold); font-weight: 900; text-shadow: 2px 2px 8px #000; }
-        .p-suf { font-size: 3vh; color: var(--white); margin-right: 8px; font-weight: 700; }
+        .p-val-box { 
+            display: flex; 
+            align-items: baseline; 
+            white-space: nowrap; 
+            padding-right: 2vw; /* زيادة الفراغ قبل التوقيت */
+        }
+        .p-val { font-size: 6.8vh; color: var(--gold); font-weight: 900; text-shadow: 2px 2px 8px #000; }
+        .p-suf { font-size: 3vh; color: var(--white); margin-right: 12px; font-weight: 700; }
     </style>
 </head>
 <body>
@@ -108,26 +124,23 @@
 </div>
 
 <script>
-    // مواقيت الصلاة
+    // مواقيت الصلاة لجدة
     const prayerData = [
         {n: "الفجر", h: 5, m: 10}, {n: "الشروق", h: 6, m: 34}, {n: "الظهر", h: 12, m: 20},
         {n: "العصر", h: 15, m: 34}, {n: "المغرب", h: 18, m: 6}, {n: "العشاء", h: 19, m: 31}
     ];
 
-    // قائمة الأذكار والأحاديث من البخاري ومسلم
     const azkar = [
         "قال ﷺ: كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ، ثَقِيلَتَانِ فِي الْمِيزَانِ: سُبْحَانَ اللهِ وَبِحَمْدِهِ، سُبْحَانَ اللهِ الْعَظِيمِ (البخاري)",
         "قال ﷺ: مَنْ صَلَّى عَلَيَّ صَلَاةً وَاحِدَةً صَلَّى اللهُ عَلَيْهِ بِهَا عَشْرًا (مسلم)",
         "قال ﷺ: لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللهِ كَنْزٌ مِنْ كُنُوزِ الْجَنَّةِ (البخاري ومسلم)",
         "قال ﷺ: أَحَبُّ الْكَلَامِ إِلَى اللهِ أَرْبَعٌ: سُبْحَانَ اللهِ، وَالْحَمْدُ للهِ، وَلَا إِلَهَ إِلَّا اللهُ، وَاللهُ أَكْبَرُ (مسلم)",
         "قال ﷺ: مَنْ قَالَ سُبْحَانَ اللهِ وَبِحَمْدِهِ فِي يَوْمٍ مِائَةَ مَرَّةٍ حُطَّتْ خَطَايَاهُ وَإِنْ كَانَتْ مِثْلَ زَبَدِ الْبَحْرِ (البخاري)",
-        "قال ﷺ: لأَنْ أَقُولَ سُبْحَانَ اللهِ، وَالْحَمْدُ للهِ، وَلَا إِلَهَ إِلا اللهُ، وَاللهُ أَكْبَرُ، أَحَبُّ إِلَيَّ مِمَّا طَلَعَتْ عَلَيْهِ الشَّمْسُ (مسلم)",
         "اللهم إني أسألك الهدى والتقى والعفاف والغنى (مسلم)",
-        "اللهم اغفر لي، وارحمني، واهدني، وعافني، وارزقني (مسلم)",
+        "أستغفر الله العظيم وأتوب إليه",
         "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير (البخاري)",
         "يا حي يا قيوم برحمتك أستغيث، أصلح لي شأني كله ولا تكلني إلى نفسي طرفة عين",
-        "سبحان الله والحمد لله ولا إله إلا الله والله أكبر",
-        "أستغفر الله العظيم وأتوب إليه"
+        "سبحان الله والحمد لله ولا إله إلا الله والله أكبر"
     ];
 
     function fmt12(h, m) {
@@ -159,6 +172,7 @@
             if(ps > cur) { next = ps; break; }
         }
         if(!next) next = prayerData[0].h*3600 + prayerData[0].m*60 + 86400;
+
         let diff = next - cur;
         let h = Math.floor(diff/3600), m = Math.floor((diff%3600)/60), s = diff%60;
         document.getElementById("timer").innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
@@ -166,7 +180,6 @@
 
     init(); update(); setInterval(update, 1000);
     
-    // تبديل الأذكار كل 25 ثانية لفرصة القراءة
     let z = 0; 
     setInterval(() => { 
         const zElem = document.getElementById("zikr");
