@@ -14,52 +14,61 @@
             background-color: #000;
             width: 100vw; height: 100vh;
             overflow: hidden;
-            display: border-box; align-items: center; justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
 
-        /* حاوية التدوير الطولي */
+        /* حاوية التدوير الطولي المعدلة */
         .main-container {
             transform: rotate(90deg);
             width: 100vh; height: 100vw;
             display: flex; flex-direction: column;
             
-            /* تم تغيير الامتداد هنا ليكون bg.png */
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url("bg.png") center/100% 100% no-repeat;
+            /* تعديل طريقة عرض الخلفية لملء الشاشة بالكامل */
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url("bg.png") center/cover no-repeat; /* تم تغييرها لـ cover */
             position: absolute;
+            box-shadow: inset 0 0 100px #000;
         }
 
-        /* الجزء العلوي */
+        /* الجزء العلوي - زيادة الحجم ليناسب الـ 85 بوصة */
         .header {
-            height: 12vh;
+            height: 15vh;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 6vw; border-bottom: 5px solid var(--gold);
-            background: rgba(0,0,0,0.3);
+            padding: 0 5vw; border-bottom: 8px solid var(--gold);
+            background: rgba(0,0,0,0.5);
         }
 
-        .date-text { font-size: 3.5vh; color: var(--gold); font-weight: 800; }
-        .mosque-name { text-align: center; font-size: 7vh; font-weight: 900; color: var(--white); margin-top: 4vh; text-shadow: 4px 4px 15px #000; }
+        .date-text { font-size: 4.5vh; color: var(--gold); font-weight: 800; }
+        
+        .mosque-name { 
+            text-align: center; 
+            font-size: 9vh; /* تكبير اسم المسجد */
+            font-weight: 900; 
+            color: var(--white); 
+            margin-top: 6vh; 
+            text-shadow: 5px 5px 20px #000; 
+        }
 
-        /* الساعة المركزية */
-        .clock-section { text-align: center; margin-top: 5vh; }
-        #clock { font-size: 26vh; font-weight: 900; color: var(--gold); line-height: 0.85; text-shadow: 0 0 50px rgba(0,0,0,1); }
-        #ampm { font-size: 7vh; color: var(--white); font-weight: 800; display: block; }
+        /* الساعة المركزية - جعلها أوضح */
+        .clock-section { text-align: center; margin-top: 4vh; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        #clock { font-size: 32vh; font-weight: 900; color: var(--gold); line-height: 0.8; text-shadow: 0 0 60px rgba(0,0,0,1); }
+        #ampm { font-size: 8vh; color: var(--white); font-weight: 800; margin-top: 2vh; }
 
         /* الأذكار */
-        .zikr-area { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 8vw; }
-        #zikr { font-size: 7.5vh; font-weight: 800; color: var(--white); text-shadow: 5px 5px 25px #000; }
+        .zikr-area { height: 20vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 5vw; }
+        #zikr { font-size: 9vh; font-weight: 800; color: var(--white); text-shadow: 4px 4px 30px #000; }
 
-        /* مواقيت الصلاة */
+        /* مواقيت الصلاة - زيادة التباين */
         .prayer-grid {
-            height: 35vh;
+            height: 38vh;
             display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr);
-            background: rgba(0, 0, 0, 0.8); border-top: 6px solid var(--gold);
+            background: rgba(0, 0, 0, 0.9); border-top: 8px solid var(--gold);
         }
 
-        .prayer-card { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255, 215, 0, 0.2); }
-        .p-label { font-size: 4.5vh; color: #eee; font-weight: 800; }
-        .p-time { font-size: 7.5vh; color: var(--gold); font-weight: 900; }
-        .p-suffix { font-size: 3vh; color: #fff; margin-right: 5px; }
+        .prayer-card { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255, 215, 0, 0.3); }
+        .p-label { font-size: 5vh; color: #ddd; font-weight: 800; }
+        .p-time { font-size: 8.5vh; color: var(--gold); font-weight: 900; }
+        .p-suffix { font-size: 3.5vh; color: #fff; margin-right: 8px; }
     </style>
 </head>
 <body>
@@ -85,6 +94,7 @@
 </div>
 
 <script>
+    // مواقيت الصلاة (تأكد من تعديلها يدوياً أو ربطها بـ API)
     const prayerTimes = [
         {name: "الفجر", time: "05:10", suf: "ص"},
         {name: "الشروق", time: "06:34", suf: "ص"},
