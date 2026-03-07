@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شاشة جامع الأمير فواز - النسخة المطورة</title>
+    <title>شاشة جامع الأمير فواز - النسخة المنظمة</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --gold: #FFD700; --white: #F5F5F5; }
@@ -23,35 +23,37 @@
             position: absolute; border: 4px solid var(--gold);
         }
 
-        /* 1. الجزء العلوي: اسم الجامع، التاريخ، والساعة */
+        /* 1. الجزء العلوي: زيادة التباعد وتصغير الساعة */
         .top-section {
             height: 38vh;
             display: flex; flex-direction: column;
             justify-content: center; text-align: center;
-            padding: 2vh 0;
+            padding: 1vh 0;
         }
-        .mosque-name { font-family: 'Amiri', serif; font-size: 8vh; color: var(--white); text-shadow: 0 0 15px var(--gold); }
-        .date-info { font-size: 2.8vh; color: var(--gold); font-weight: 700; margin: 1vh 0; }
+        .mosque-name { font-family: 'Amiri', serif; font-size: 7.5vh; color: var(--white); text-shadow: 0 0 15px var(--gold); }
         
-        .clock-area { display: flex; align-items: center; justify-content: center; gap: 2vw; margin-top: 1vh; }
-        #clock { font-size: 20vh; font-weight: 900; color: var(--gold); line-height: 0.8; text-shadow: 0 0 40px #000; }
-        #ampm { font-size: 6vh; color: var(--white); font-weight: 800; }
+        /* زيادة المسافة تحت التاريخ */
+        .date-info { font-size: 2.8vh; color: var(--gold); font-weight: 700; margin: 1vh 0 3vh 0; }
+        
+        /* منطقة الساعة - تم تصغير الخط وزيادة الهامش العلوي */
+        .clock-area { display: flex; align-items: center; justify-content: center; gap: 2vw; margin-top: 2vh; }
+        #clock { font-size: 17vh; font-weight: 900; color: var(--gold); line-height: 0.8; text-shadow: 0 0 40px #000; }
+        #ampm { font-size: 5.5vh; color: var(--white); font-weight: 800; }
 
-        /* 2. الجزء الأوسط: الأذكار والأحاديث */
+        /* 2. الجزء الأوسط: الأذكار */
         .zikr-section {
             flex: 1; display: flex; align-items: center; justify-content: center;
             text-align: center; padding: 0 6vw;
         }
         #zikr { font-size: 7.5vh; font-weight: 800; color: var(--white); text-shadow: 3px 3px 20px #000; line-height: 1.4; transition: opacity 0.5s; }
 
-        /* 3. الجزء السفلي: العداد مدمج مع مواقيت الصلاة */
+        /* 3. الجزء السفلي: العداد ومواقيت الصلاة */
         .prayer-section {
             height: 42vh;
             display: flex; flex-direction: column;
             border-top: 4px solid var(--gold); background: rgba(0,0,0,0.7);
         }
 
-        /* العداد أصبح هنا (فوق شبكة الصلاة مباشرة) */
         .next-prayer-box {
             background: rgba(255, 215, 0, 0.2);
             padding: 1vh; border-bottom: 2px solid var(--gold);
@@ -93,7 +95,6 @@
     </div>
 
     <div class="prayer-section">
-        <!-- العداد مدمج هنا -->
         <div class="next-prayer-box">
             <span id="timer-label">الصلاة القادمة بعد: </span>
             <span id="timer">00:00:00</span>
