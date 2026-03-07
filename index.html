@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شاشة المسجد - 85 بوصة - تصميم مطور</title>
+    <title>شاشة المسجد الاحترافية - 85 بوصة</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root {
             --gold: #FFD700;
             --white: #ffffff;
-            --overlay: rgba(0, 0, 0, 0.75); /* تعتيم الخلفية لبروز الخط */
+            --overlay: rgba(0, 0, 0, 0.7); 
         }
 
         * {
@@ -36,33 +36,34 @@
             height: 100vw;
             display: flex;
             flex-direction: column;
-            /* خلفية إسلامية بجودة عالية */
-            background: linear-gradient(var(--overlay), var(--overlay)),
-                        url("https://images.unsplash.com") center/cover no-repeat;
+            /* خلفية إسلامية بديلة ومستقرة */
+            background-image: linear-gradient(var(--overlay), var(--overlay)), 
+                              url("https://cdn.pixabay.com");
+            background-size: cover;
+            background-position: center;
             position: absolute;
-            border: 10px solid #111;
         }
 
         /* التاريخ العلوي */
         .header {
-            height: 12vh;
+            height: 10vh;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 6vw;
-            border-bottom: 5px solid var(--gold);
-            background: rgba(0,0,0,0.4);
+            border-bottom: 4px solid var(--gold);
+            background: rgba(0,0,0,0.5);
         }
 
         .date-text {
-            font-size: 3.8vh;
+            font-size: 3.5vh;
             color: var(--gold);
             font-weight: 800;
         }
 
         .mosque-name {
             text-align: center;
-            font-size: 6.5vh;
+            font-size: 6vh;
             font-weight: 900;
             color: var(--white);
             margin-top: 3vh;
@@ -80,13 +81,15 @@
             font-weight: 900;
             color: var(--gold);
             line-height: 0.85;
-            text-shadow: 0 0 40px rgba(0,0,0,0.8);
+            text-shadow: 0 0 40px rgba(0,0,0,0.9);
         }
 
-        #ampm {
-            font-size: 6.5vh;
+        #ampm-main {
+            font-size: 6vh;
             color: var(--white);
             font-weight: 700;
+            display: block;
+            margin-top: 1vh;
         }
 
         /* الأذكار */
@@ -109,11 +112,11 @@
 
         /* مواقيت الصلاة (3 فوق 3) */
         .prayer-grid {
-            height: 32vh; /* زيادة الارتفاع لاستيعاب صفين */
+            height: 35vh;
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 أعمدة */
-            grid-template-rows: repeat(2, 1fr);    /* صفين */
-            background: rgba(0, 0, 0, 0.9);
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            background: rgba(0, 0, 0, 0.85);
             border-top: 6px solid var(--gold);
         }
 
@@ -127,14 +130,22 @@
 
         .p-label {
             font-size: 4vh;
-            color: #ccc;
-            font-weight: 700;
+            color: #eee;
+            font-weight: 800;
+            margin-bottom: 0.5vh;
         }
 
         .p-time {
-            font-size: 7vh;
+            font-size: 6.5vh;
             color: var(--gold);
             font-weight: 900;
+        }
+
+        .p-suffix {
+            font-size: 2.5vh;
+            color: var(--white);
+            font-weight: 500;
+            margin-right: 5px;
         }
     </style>
 </head>
@@ -150,7 +161,7 @@
 
     <div class="clock-section">
         <div id="clock">00:00</div>
-        <div id="ampm">صباحاً</div>
+        <div id="ampm-main">--</div>
     </div>
 
     <div class="zikr-area">
@@ -158,37 +169,45 @@
     </div>
 
     <div class="prayer-grid" id="prayerGrid">
-        <!-- يتم التوليد عبر JavaScript (3 فوق 3) -->
+        <!-- يتم التوليد عبر JS -->
     </div>
 </div>
 
 <script>
+    // مواقيت الصلاة (محدثة بنظام 12 ساعة يدوي للعرض)
     const prayerTimes = [
-        {name: "الفجر", time: "05:21"},
-        {name: "الشروق", time: "06:38"},
-        {name: "الظهر", time: "12:31"},
-        {name: "العصر", time: "15:52"},
-        {name: "المغرب", time: "18:24"},
-        {name: "العشاء", time: "19:54"}
+        {name: "الفجر", time: "05:21", suffix: "ص"},
+        {name: "الشروق", time: "06:38", suffix: "ص"},
+        {name: "الظهر", time: "12:31", suffix: "م"},
+        {name: "العصر", time: "03:52", suffix: "م"},
+        {name: "المغرب", time: "06:24", suffix: "م"},
+        {name: "العشاء", time: "07:54", suffix: "م"}
     ];
 
     const grid = document.getElementById("prayerGrid");
     prayerTimes.forEach(p => {
         const div = document.createElement("div");
         div.className = "prayer-card";
-        div.innerHTML = `<div class="p-label">${p.name}</div><div class="p-time">${p.time}</div>`;
+        div.innerHTML = `
+            <div class="p-label">${p.name}</div>
+            <div class="p-time">${p.time}<span class="p-suffix">${p.suffix}</span></div>
+        `;
         grid.appendChild(div);
     });
 
     function update() {
         const now = new Date();
+        
+        // عرض الساعة الرئيسية بنظام 12 ساعة
         let h = now.getHours();
         let m = String(now.getMinutes()).padStart(2, '0');
-        document.getElementById("clock").innerText = (h % 12 || 12) + ":" + m;
-        document.getElementById("ampm").innerText = h >= 12 ? "مساءً" : "صباحاً";
+        let h12 = h % 12 || 12;
+        document.getElementById("clock").innerText = h12 + ":" + m;
+        document.getElementById("ampm-main").innerText = h >= 12 ? "مساءً" : "صباحاً";
 
+        // التواريخ العربية
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById("miladi").innerText = now.toLocaleDateString('ar-EG', options);
+        document.getElementById("miladi").innerText = now.toLocaleDateString('ar-SA', options);
         document.getElementById("hijri").innerText = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', options).format(now);
     }
 
@@ -197,7 +216,7 @@
         "لا إله إلا الله وحده لا شريك له",
         "اللهم صلِّ وسلم على نبينا محمد",
         "أستغفر الله العظيم وأتوب إليه",
-        "سبحان الله والحمد لله ولا إله إلا الله والله أكبر"
+        "لا حول ولا قوة إلا بالله العلي العظيم"
     ];
     let zIndex = 0;
     setInterval(() => {
