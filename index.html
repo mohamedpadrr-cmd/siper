@@ -23,35 +23,40 @@
             position: absolute; border: 4px solid var(--gold);
         }
 
-        /* الجزء العلوي: تقليل الارتفاع لمنع التداخل */
+        /* الجزء العلوي: الساعة واسم الجامع */
         .top-section {
-            height: 28vh;
+            height: 30vh;
             display: flex; flex-direction: column;
             justify-content: center; text-align: center;
+            padding-top: 2vh;
         }
 
-        .mosque-name { font-family: 'Amiri', serif; font-size: 7vh; color: var(--white); text-shadow: 0 0 15px var(--gold); }
-        .date-info { font-size: 2.5vh; color: var(--gold); font-weight: 700; margin-bottom: 0.5vh; }
-
-        .clock-row { display: flex; align-items: center; justify-content: center; gap: 2vw; margin-top: 1vh; }
+        .clock-row { display: flex; align-items: center; justify-content: center; gap: 2vw; }
         #clock { font-size: 14vh; font-weight: 900; color: var(--gold); line-height: 1; text-shadow: 0 0 30px #000; }
         #ampm { font-size: 4vh; color: var(--white); font-weight: 800; }
 
-        /* العداد: صغرنا حجمه ليتناسب مع المساحة */
-        .counter-box {
-            background: rgba(255, 215, 0, 0.15);
-            margin: 1vh 20vw; padding: 0.8vh;
-            border-radius: 15px; border: 1px solid var(--gold);
-        }
-        #timer-label { font-size: 2.5vh; color: var(--white); }
-        #timer { font-size: 5vh; color: var(--gold); font-weight: 900; letter-spacing: 2px; }
+        .mosque-name { font-family: 'Amiri', serif; font-size: 7vh; color: var(--white); text-shadow: 0 0 15px var(--gold); margin-top: 1vh; }
+        .date-info { font-size: 2.5vh; color: var(--gold); font-weight: 700; margin-top: 0.5vh; }
 
-        /* الأذكار في المنتصف */
+        /* الجزء الأوسط: الأذكار */
         .zikr-section {
             flex: 1; display: flex; align-items: center; justify-content: center;
             text-align: center; padding: 0 5vw;
         }
         #zikr { font-size: 7vh; font-weight: 800; color: var(--white); text-shadow: 4px 4px 15px #000; line-height: 1.3; }
+
+        /* منطقة العداد: فوق مواقيت الصلاة مباشرة */
+        .counter-area {
+            display: flex; justify-content: center; margin-bottom: 1vh;
+        }
+        .counter-box {
+            background: rgba(255, 215, 0, 0.15);
+            width: 60vw; padding: 1.5vh;
+            border-radius: 20px; border: 2px solid var(--gold);
+            text-align: center;
+        }
+        #timer-label { font-size: 2.8vh; color: var(--white); margin-bottom: 0.5vh; }
+        #timer { font-size: 6vh; color: var(--gold); font-weight: 900; letter-spacing: 4px; line-height: 1; }
 
         /* مواقيت الصلاة: توزيع طولي 3 يمين و 3 يسار */
         .bottom-prayers {
@@ -63,32 +68,42 @@
         .prayer-col { display: flex; flex-direction: column; justify-content: space-around; padding: 1vh 0; }
         .v-line { border-left: 2px solid rgba(255,215,0,0.3); }
 
-        .prayer-item { display: flex; justify-content: space-between; align-items: center; padding: 0 4vw; }
-        .p-name { font-size: 4.2vh; color: var(--white); font-weight: 800; }
-        .p-val { font-size: 6vh; color: var(--gold); font-weight: 900; text-shadow: 2px 2px 8px #000; }
-        .p-suf { font-size: 2.5vh; color: var(--white); margin-right: 5px; }
+        .prayer-item { display: flex; justify-content: space-between; align-items: center; padding: 0 3vw; }
+        .p-name { font-size: 4.5vh; color: var(--white); font-weight: 800; }
+        
+        /* حل مشكلة الشروق ص: منع التفاف النص */
+        .p-val-box { display: flex; align-items: baseline; white-space: nowrap; }
+        .p-val { font-size: 6.5vh; color: var(--gold); font-weight: 900; text-shadow: 2px 2px 8px #000; }
+        .p-suf { font-size: 3vh; color: var(--white); margin-right: 8px; font-weight: 700; }
     </style>
 </head>
 <body>
 
 <div class="main-container">
+    <!-- العلوي -->
     <div class="top-section">
-        <div class="date-info"><span id="hijri">--</span> | <span id="miladi">--</span></div>
-        <div class="mosque-name">جامع الأمير فواز</div>
         <div class="clock-row">
             <div id="clock">00:00</div>
             <div id="ampm">--</div>
         </div>
+        <div class="mosque-name">جامع الأمير فواز</div>
+        <div class="date-info"><span id="hijri">--</span> | <span id="miladi">--</span></div>
+    </div>
+
+    <!-- الوسط -->
+    <div class="zikr-section">
+        <div id="zikr">أستغفر الله العظيم وأتوب إليه</div>
+    </div>
+
+    <!-- العداد فوق الصلاة مباشرة -->
+    <div class="counter-area">
         <div class="counter-box">
             <div id="timer-label">الصلاة القادمة بعد</div>
             <div id="timer">00:00:00</div>
         </div>
     </div>
 
-    <div class="zikr-section">
-        <div id="zikr">أستغفر الله العظيم وأتوب إليه</div>
-    </div>
-
+    <!-- السفلي -->
     <div class="bottom-prayers">
         <div class="prayer-col v-line" id="rCol"></div>
         <div class="prayer-col" id="lCol"></div>
@@ -96,7 +111,7 @@
 </div>
 
 <script>
-    // مواقيت الصلاة (توقيت مكة/جدة)
+    // مواقيت الصلاة (توقيت جدة)
     const prayerData = [
         {n: "الفجر", h: 5, m: 10}, {n: "الشروق", h: 6, m: 34}, {n: "الظهر", h: 12, m: 20},
         {n: "العصر", h: 15, m: 34}, {n: "المغرب", h: 18, m: 6}, {n: "العشاء", h: 19, m: 31}
@@ -105,13 +120,13 @@
     function fmt12(h, m) {
         let s = h >= 12 ? "م" : "ص";
         let h12 = h % 12 || 12;
-        return `${String(h12).padStart(2,'0')}:${String(m).padStart(2,'0')} <span class="p-suf">${s}</span>`;
+        return `<div class="p-val-box"><span class="p-val">${String(h12).padStart(2,'0')}:${String(m).padStart(2,'0')}</span><span class="p-suf">${s}</span></div>`;
     }
 
     function init() {
         const r = document.getElementById("rCol"), l = document.getElementById("lCol");
         prayerData.forEach((p, i) => {
-            const h = `<div class="prayer-item"><div class="p-name">${p.n}</div><div class="p-val">${fmt12(p.h, p.m)}</div></div>`;
+            const h = `<div class="prayer-item"><div class="p-name">${p.n}</div>${fmt12(p.h, p.m)}</div>`;
             if (i < 3) r.innerHTML += h; else l.innerHTML += h;
         });
     }
