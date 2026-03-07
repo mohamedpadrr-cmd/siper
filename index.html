@@ -7,134 +7,128 @@
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
         :root { --gold: #FFD700; --white: #ffffff; }
-
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
+        body { background-color: #000; width: 100vw; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 
-        body {
-            background-color: #000;
-            width: 100vw; height: 100vh;
-            overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        /* حاوية التدوير الطولي المعدلة */
         .main-container {
             transform: rotate(90deg);
             width: 100vh; height: 100vw;
             display: flex; flex-direction: column;
-            
-            /* تعديل طريقة عرض الخلفية لملء الشاشة بالكامل */
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url("bg.png") center/cover no-repeat; /* تم تغييرها لـ cover */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url("bg.png") center/cover no-repeat;
             position: absolute;
-            box-shadow: inset 0 0 100px #000;
         }
 
-        /* الجزء العلوي - زيادة الحجم ليناسب الـ 85 بوصة */
-        .header {
-            height: 15vh;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 5vw; border-bottom: 8px solid var(--gold);
-            background: rgba(0,0,0,0.5);
-        }
-
-        .date-text { font-size: 4.5vh; color: var(--gold); font-weight: 800; }
+        .header { height: 12vh; display: flex; justify-content: space-between; align-items: center; padding: 0 6vw; border-bottom: 5px solid var(--gold); background: rgba(0,0,0,0.4); }
+        .date-text { font-size: 3.5vh; color: var(--gold); font-weight: 800; }
         
-        .mosque-name { 
-            text-align: center; 
-            font-size: 9vh; /* تكبير اسم المسجد */
-            font-weight: 900; 
-            color: var(--white); 
-            margin-top: 6vh; 
-            text-shadow: 5px 5px 20px #000; 
-        }
+        .mosque-name { text-align: center; font-size: 7vh; font-weight: 900; color: var(--white); margin-top: 3vh; text-shadow: 4px 4px 15px #000; }
 
-        /* الساعة المركزية - جعلها أوضح */
-        .clock-section { text-align: center; margin-top: 4vh; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
-        #clock { font-size: 32vh; font-weight: 900; color: var(--gold); line-height: 0.8; text-shadow: 0 0 60px rgba(0,0,0,1); }
-        #ampm { font-size: 8vh; color: var(--white); font-weight: 800; margin-top: 2vh; }
+        /* الساعة - قمت بتصغيرها قليلاً كما طلبت */
+        .clock-section { text-align: center; margin-top: 2vh; }
+        #clock { font-size: 22vh; font-weight: 900; color: var(--gold); line-height: 0.85; text-shadow: 0 0 50px #000; }
+        #ampm { font-size: 6vh; color: var(--white); font-weight: 800; display: block; }
 
-        /* الأذكار */
-        .zikr-area { height: 20vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 5vw; }
-        #zikr { font-size: 9vh; font-weight: 800; color: var(--white); text-shadow: 4px 4px 30px #000; }
+        /* عداد الصلاة القادمة - إضافة جديدة */
+        .next-prayer-counter { text-align: center; margin-top: 2vh; background: rgba(255, 215, 0, 0.15); padding: 1vh 0; border-radius: 20px; margin: 2vh 20vw 0 20vw; border: 1px solid var(--gold); }
+        #next-prayer-text { font-size: 4vh; color: var(--white); font-weight: 700; }
+        #timer { font-size: 6vh; color: var(--gold); font-weight: 900; }
 
-        /* مواقيت الصلاة - زيادة التباين */
-        .prayer-grid {
-            height: 38vh;
-            display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr);
-            background: rgba(0, 0, 0, 0.9); border-top: 8px solid var(--gold);
-        }
+        /* الأذكار - قمت برفعها للوسط كما طلبت */
+        .zikr-area { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 8vw; margin-top: -2vh; }
+        #zikr { font-size: 7.5vh; font-weight: 800; color: var(--white); text-shadow: 5px 5px 25px #000; min-height: 20vh; display: flex; align-items: center; }
 
-        .prayer-card { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255, 215, 0, 0.3); }
-        .p-label { font-size: 5vh; color: #ddd; font-weight: 800; }
-        .p-time { font-size: 8.5vh; color: var(--gold); font-weight: 900; }
-        .p-suffix { font-size: 3.5vh; color: #fff; margin-right: 8px; }
+        .prayer-grid { height: 35vh; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); background: rgba(0, 0, 0, 0.85); border-top: 6px solid var(--gold); }
+        .prayer-card { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255, 215, 0, 0.2); }
+        .p-label { font-size: 4.5vh; color: #eee; font-weight: 800; }
+        .p-time { font-size: 7.5vh; color: var(--gold); font-weight: 900; }
     </style>
 </head>
 <body>
-
 <div class="main-container">
     <div class="header">
         <div id="hijri" class="date-text">--</div>
         <div id="miladi" class="date-text">--</div>
     </div>
-
     <div class="mosque-name">جامع الأمير فواز – جدة</div>
-
+    
     <div class="clock-section">
         <div id="clock">00:00</div>
         <div id="ampm">--</div>
     </div>
 
-    <div class="zikr-area">
-        <div id="zikr">أستغفر الله العظيم وأتوب إليه</div>
+    <!-- قسم العداد التنازلي -->
+    <div class="next-prayer-counter">
+        <div id="next-prayer-text">الصلاة القادمة بعد</div>
+        <div id="timer">--:--:--</div>
     </div>
 
+    <div class="zikr-area"><div id="zikr">أستغفر الله العظيم وأتوب إليه</div></div>
     <div class="prayer-grid" id="prayerGrid"></div>
 </div>
 
 <script>
-    // مواقيت الصلاة (تأكد من تعديلها يدوياً أو ربطها بـ API)
+    // مواقيت الصلاة (يمكنك تحديثها يدوياً هنا)
     const prayerTimes = [
-        {name: "الفجر", time: "05:10", suf: "ص"},
-        {name: "الشروق", time: "06:34", suf: "ص"},
-        {name: "الظهر", time: "12:20", suf: "م"},
-        {name: "العصر", time: "03:34", suf: "م"},
-        {name: "المغرب", time: "06:06", suf: "م"},
-        {name: "العشاء", time: "07:31", suf: "م"}
+        {name: "الفجر", time: "05:10"}, {name: "الشروق", time: "06:34"},
+        {name: "الظهر", time: "12:20"}, {name: "العصر", time: "15:34"},
+        {name: "المغرب", time: "18:06"}, {name: "العشاء", time: "19:31"}
     ];
 
     const grid = document.getElementById("prayerGrid");
     prayerTimes.forEach(p => {
         const div = document.createElement("div");
         div.className = "prayer-card";
-        div.innerHTML = `<div class="p-label">${p.name}</div><div class="p-time">${p.time}<span class="p-suffix">${p.suf}</span></div>`;
+        // تحويل الوقت للعرض بنظام 12 ساعة
+        let displayTime = p.time;
+        let suffix = parseInt(p.time.split(':')[0]) >= 12 ? "م" : "ص";
         grid.appendChild(div);
+        div.innerHTML = `<div class="p-label">${p.name}</div><div class="p-time">${displayTime} <span style="font-size:3vh; color:#fff">${suffix}</span></div>`;
     });
 
     function updateJeddahTime() {
         const now = new Date();
         const jeddahTime = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Riyadh', hour12: true, hour: '2-digit', minute: '2-digit' });
-        
         const [time, ampm] = jeddahTime.split(' ');
         document.getElementById("clock").innerText = time;
         document.getElementById("ampm").innerText = ampm === "AM" ? "صباحاً" : "مساءً";
-
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById("miladi").innerText = now.toLocaleDateString('ar-SA', options);
-        document.getElementById("hijri").innerText = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', options).format(now);
+        document.getElementById("miladi").innerText = now.toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById("hijri").innerText = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' }).format(now);
+        
+        updateTimer(now);
     }
 
-    const azkar = ["سبحان الله وبحمده", "لا إله إلا الله وحده لا شريك له", "اللهم صلِّ وسلم على نبينا محمد", "أستغفر الله العظيم وأتوب إليه"];
+    function updateTimer(now) {
+        let nextTime = null;
+        let currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+        for (let p of prayerTimes) {
+            let [h, m] = p.split ? p.split(':') : p.time.split(':');
+            let pMinutes = parseInt(h) * 60 + parseInt(m);
+            if (pMinutes > currentMinutes) {
+                nextTime = pMinutes;
+                break;
+            }
+        }
+
+        if (!nextTime) nextTime = (parseInt(prayerTimes[0].time.split(':')[0]) + 24) * 60 + parseInt(prayerTimes[0].time.split(':')[1]);
+
+        let diff = (nextTime - currentMinutes) * 60 - now.getSeconds();
+        let hrs = Math.floor(diff / 3600);
+        let mins = Math.floor((diff % 3600) / 60);
+        let secs = diff % 60;
+        document.getElementById("timer").innerText = `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    const azkar = ["سبحان الله وبحمده", "لا إله إلا الله وحده لا شريك له", "اللهم صلِّ وسلم على نبينا محمد", "أستغفر الله العظيم وأتوب إليه", "سبحان الله والحمد لله"];
     let zIndex = 0;
     setInterval(() => {
         document.getElementById("zikr").innerText = azkar[zIndex];
         zIndex = (zIndex + 1) % azkar.length;
-    }, 15000);
+    }, 12000);
 
     setInterval(updateJeddahTime, 1000);
     updateJeddahTime();
 </script>
-
 </body>
 </html>
