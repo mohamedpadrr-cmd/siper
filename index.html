@@ -14,23 +14,18 @@
             background-color: #000;
             width: 100vw; height: 100vh;
             overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
+            display: border-box; align-items: center; justify-content: center;
         }
 
         /* حاوية التدوير الطولي */
         .main-container {
             transform: rotate(90deg);
-            /* العرض والارتفاع معكوسين بسبب التدوير */
-            width: 100vh; 
-            height: 100vw;
+            width: 100vh; height: 100vw;
             display: flex; flex-direction: column;
             
-            /* دمج الصورة التي أرسلتها كخلفية */
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                              url("https://r.jina.ai"); 
-            background-position: center;
-            background-size: 100% 100%; /* لضمان تغطية الشاشة بالكامل */
-            background-repeat: no-repeat;
+            /* تم تغيير الامتداد هنا ليكون bg.png */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url("bg.png") center/100% 100% no-repeat;
             position: absolute;
         }
 
